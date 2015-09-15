@@ -5262,6 +5262,25 @@ BOOST_AUTO_TEST_CASE(library_stray_values)
 	BOOST_CHECK(callContractFunction("f(uint256)", u256(33)) == encodeArgs(u256(42)));
 }
 
+
+BOOST_AUTO_TEST_CASE(string_literals_as_mapping_key)
+{
+	char const* sourceCode = R"(
+		contract Test {
+			mapping(string => uint) data;
+			function Test(){
+				data["abc"] = 2;
+			}
+			function getData() returns(uint)
+			{
+				return data["abc"];
+			}
+		}
+	)";
+	compileAndRun(sourceCode, 0, "Test");
+	BOOST_CHECK(callContractFunction("getData()") == encodeArgs(u256(2)));
+}
+
 BOOST_AUTO_TEST_SUITE_END()
 
 }
