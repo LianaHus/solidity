@@ -934,6 +934,21 @@ BOOST_AUTO_TEST_CASE(library_simple)
 	BOOST_CHECK_NO_THROW(parseText(text));
 }
 
+BOOST_AUTO_TEST_CASE(complex_parenthesis)
+{
+	char const* text = R"(
+		contract Par {
+			function f() {
+				uint a = 5;
+				uint b = 3;
+				uint c = (a + (a - b)) ^ 2; // 49
+			}
+		}
+	)";
+	BOOST_CHECK_NO_THROW(parseText(text));
+}
+
+
 BOOST_AUTO_TEST_SUITE_END()
 
 }
